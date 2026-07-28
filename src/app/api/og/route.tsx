@@ -1,56 +1,19 @@
-import { ImageResponse } from 'next/og'
-
-export const runtime = 'edge'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#0a0a0a',
-          color: '#fafafa',
-          fontFamily: 'Geist, sans-serif',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 20,
-            marginBottom: 24,
-          }}
-        >
-          {/* Flask icon */}
-          <svg width="56" height="56" viewBox="0 0 512 512" style={{ marginRight: 16 }}>
-            <g fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
-              <path d="M176 416h160l32-192H144l32 192z" />
-              <line x1="208" y1="224" x2="208" y2="288" />
-              <line x1="256" y1="224" x2="256" y2="320" />
-              <line x1="304" y1="224" x2="304" y2="288" />
-              <path d="M144 224h224" />
-            </g>
-          </svg>
-          <span style={{ fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em' }}>
-            Evan Lab
-          </span>
-        </div>
-        <span style={{ fontSize: 22, color: '#a3a3a3', marginBottom: 8 }}>
-          Creative Coding Playground
-        </span>
-        <span style={{ fontSize: 16, color: '#737373' }}>
-          Evan Rasyid Ega Pratama
-        </span>
-      </div>
-    ),
-    {
-      width: 1200,
-      height: 630,
+  const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <g transform="translate(600, 280)">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="#fafafa" letter-spacing="-0.03">Evan Lab</text>
+    <text x="0" y="56" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, sans-serif" font-size="24" fill="#a3a3a3">Creative Coding Playground</text>
+    <text x="0" y="96" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, sans-serif" font-size="16" fill="#737373">Evan Rasyid Ega Pratama</text>
+  </g>
+</svg>`
+
+  return new NextResponse(svg, {
+    headers: {
+      'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'public, max-age=31536000, immutable',
     },
-  )
+  })
 }
