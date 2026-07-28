@@ -145,7 +145,7 @@ export function Sidebar() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] p-0">
+            <SheetContent side="right" showCloseIcon={false} className="w-[280px] p-0">
               <SheetTitle className="sr-only">{t.sidebar.menuTitle}</SheetTitle>
               <div className="flex h-full flex-col p-4">
                 <div className="mb-4 flex items-center justify-between">
