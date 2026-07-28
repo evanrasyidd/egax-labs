@@ -1,0 +1,152 @@
+// Prisma schema for portfolio website
+// learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  provider  String   @default("google")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String
+  content   String
+  date      String
+  readTime  String
+  category  String
+  tags      String
+  featured  Boolean  @default(false)
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Guestbook {
+  id        String      @id @default(cuid())
+  name      String
+  message   String
+  avatar    String?
+  role      String?
+  location  String?
+  pinned    Boolean     @default(false)
+  likes     Int         @default(0)
+  parentId  String?
+  parent    Guestbook?  @relation("GBReplies", fields: [parentId], references: [id])
+  replies   Guestbook[] @relation("GBReplies")
+  createdAt DateTime    @default(now())
+
+  @@index([parentId])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  longDesc    String?
+  techStack   String
+  category    String   @default("personal")
+  type        String   @default("web")
+  thumbnail   String?
+  demoUrl     String?
+  repoUrl     String?
+  featured    Boolean  @default(false)
+  sort        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  issuer      String
+  date        String
+  description String?
+  credentialUrl String?
+  category    String   @default("certification")
+  type        String   @default("professional")
+  sort        Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model SiteStats {
+  id           String   @id @default(cuid())
+  label        String   @unique
+  value        Int      @default(0)
+  icon         String?
+  updatedAt    DateTime @updatedAt
+}
+
+model BlogReaction {
+  id        String   @id @default(cuid())
+  postSlug  String
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([postSlug])
+}
+
+model BlogView {
+  id        String   @id @default(cuid())
+  postSlug  String
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([postSlug])
+}
+
+model BlogComment {
+  id        String        @id @default(cuid())
+  postSlug  String
+  name      String
+  message   String
+  parentId  String?
+  parent    BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   BlogComment[] @relation("CommentReplies")
+  createdAt DateTime      @default(now())
+
+  @@index([postSlug])
+  @@index([parentId])
+}
+
+model DailyStat {
+  id       String @id @default(cuid())
+  date     String @unique
+  visitors Int    @default(0)
+  views    Int    @default(0)
+}
+
+model RateLimit {
+  id      String   @id @default(cuid())
+  key     String   @unique
+  count   Int      @default(0)
+  resetAt DateTime
+}
