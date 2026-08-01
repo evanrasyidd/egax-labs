@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
 
+function iso(d: Date) {
+  return d.toISOString().slice(0, 10)
+}
+
 export async function GET() {
   const apiKey = process.env.WAKATIME_API_KEY
 
@@ -8,7 +12,11 @@ export async function GET() {
       return NextResponse.json({ averageDaily: 0, totalThisWeek: 0, days: [], live: false })
     }
 
-    const res = await fetch('https://wakatime.com/api/v1/users/current/stats/last_7_days', {
+    const start = new Date()
+    start.setDate(start.getDate() - 6)
+    const url = `https://wakatime.com/api/v1/users/current/summaries?start=${iso(start)}&end=${iso(new Date())}`
+
+    const res = await fetch(url, {
       headers: {
         Authorization: `Basic ${Buffer.from(apiKey + ':').toString('base64')}`,
       },
@@ -20,21 +28,20 @@ export async function GET() {
     }
 
     const json = await res.json()
-    const grandTotal = json?.data?.grand_total
-    const daysRaw = json?.data?.days ?? []
-
-    const totalSec = grandTotal?.total_seconds ?? 0
-    const avgDaily = totalSec / 7 / 3600
-    const totalHours = totalSec / 3600
+    const daysRaw = json?.data ?? []
 
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const days = daysRaw.map((d: { date: string; total_seconds: number }) => {
-      const dt = new Date(d.date)
+    const days = daysRaw.map((d: { range?: { date?: string }; grand_total?: { total_seconds?: number } }) => {
+      const dt = d.range?.date ? new Date(d.range.date) : null
       return {
-        day: dayNames[dt.getDay()],
-        hours: Math.round((d.total_seconds / 3600) * 10) / 10,
+        day: dt ? dayNames[dt.getDay()] : '?',
+        hours: Math.round(((d.grand_total?.total_seconds ?? 0) / 3600) * 10) / 10,
       }
     })
+
+    const totalSec = days.reduce((s: number, d: { hours: number }) => s + d.hours, 0) * 3600
+    const totalHours = totalSec / 3600
+    const avgDaily = totalHours / 7
 
     return NextResponse.json({
       averageDaily: Math.round(avgDaily * 10) / 10,
