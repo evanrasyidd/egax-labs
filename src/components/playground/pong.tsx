@@ -9,7 +9,8 @@ export function Pong() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [score, setScore] = React.useState({ p: 0, ai: 0 })
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
 
   const g = React.useRef({
@@ -33,12 +34,18 @@ export function Pong() {
     if (!ctx) return
     c.width = W; c.height = H
 
-    const mm = (e: MouseEvent) => {
+    const pm = (e: PointerEvent) => {
       if (stRef.current === 'idle') { restart(); return }
       const r = c.getBoundingClientRect()
       g.current.p.y = Math.max(0, Math.min(H - PH, (e.clientY - r.top) * (H / r.height) - PH / 2))
     }
-    c.addEventListener('mousemove', mm)
+    const pd = (e: PointerEvent) => {
+      if (stRef.current === 'idle') { restart(); return }
+      const r = c.getBoundingClientRect()
+      g.current.p.y = Math.max(0, Math.min(H - PH, (e.clientY - r.top) * (H / r.height) - PH / 2))
+    }
+    c.addEventListener('pointermove', pm)
+    c.addEventListener('pointerdown', pd)
 
     const interval = setInterval(() => {
       if (stRef.current !== 'playing') return
@@ -99,24 +106,24 @@ export function Pong() {
 
       if (stRef.current === 'idle') {
         ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '11px monospace'; ctx.textAlign = 'center'
-        ctx.fillText('MOVE MOUSE TO START', W / 2, H / 2); ctx.fillText('FIRST TO 5 WINS', W / 2, H / 2 + 16)
+        ctx.fillText('MOVE MOUSE / DRAG TO START', W / 2, H / 2); ctx.fillText('FIRST TO 5 WINS', W / 2, H / 2 + 16)
       }
       requestAnimationFrame(draw)
     }
     requestAnimationFrame(draw)
 
-    return () => { live.current = false; c.removeEventListener('mousemove', mm); clearInterval(interval) }
+    return () => { live.current = false; c.removeEventListener('pointermove', pm); c.removeEventListener('pointerdown', pd); clearInterval(interval) }
   }, [])
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ MOUSE: MOVE PADDLE ] — first to 5 wins</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ MOUSE / DRAG: MOVE PADDLE ] — first to 5 wins</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground"><span className="text-emerald-400">{score.p}</span> — <span className="text-red-400">{score.ai}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', cursor: 'none' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', cursor: 'none', touchAction: 'none' }} />
       </div>
     </div>
   )

@@ -21,7 +21,8 @@ export function Asteroids() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [score, setScore] = React.useState(0)
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
 
   const g = React.useRef({
@@ -33,6 +34,8 @@ export function Asteroids() {
     sc: 0, cd: 0,
   })
   const keys = React.useRef(new Set<string>())
+  const fire = React.useRef(false)
+  const joy = React.useRef({ x: 0, y: 0, act: false })
 
   const restart = () => {
     stRef.current = 'playing'; setSt('playing')
@@ -64,6 +67,24 @@ export function Asteroids() {
     const ku = (e: KeyboardEvent) => keys.current.delete(e.key)
     window.addEventListener('keydown', kd); window.addEventListener('keyup', ku)
 
+    const ts = (e: TouchEvent) => {
+      e.preventDefault()
+      if (stRef.current === 'idle' || stRef.current === 'over') { restart(); return }
+      const t = e.touches[0]; const r = c.getBoundingClientRect()
+      joy.current = { x: (t.clientX - r.left) * (W / r.width), y: (t.clientY - r.top) * (H / r.height), act: true }
+    }
+    const tm = (e: TouchEvent) => {
+      if (!joy.current.act) return
+      e.preventDefault()
+      const t = e.touches[0]; const r = c.getBoundingClientRect()
+      joy.current.x = (t.clientX - r.left) * (W / r.width)
+      joy.current.y = (t.clientY - r.top) * (H / r.height)
+    }
+    const te = () => { joy.current.act = false }
+    c.addEventListener('touchstart', ts, { passive: false })
+    c.addEventListener('touchmove', tm, { passive: false })
+    c.addEventListener('touchend', te)
+
     function draw() {
       if (!live.current) return
       const gg = g.current
@@ -79,11 +100,26 @@ export function Asteroids() {
           s.vx += Math.cos(s.a) * 0.12; s.vy += Math.sin(s.a) * 0.12
           if (Math.random() < 0.4) gg.pts.push({ x: s.x - Math.cos(s.a) * s.r, y: s.y - Math.sin(s.a) * s.r, vx: -Math.cos(s.a) * 2 + (Math.random() - 0.5) * 2, vy: -Math.sin(s.a) * 2 + (Math.random() - 0.5) * 2, life: 8 })
         }
+        if (joy.current.act) {
+          const dx = joy.current.x - s.x, dy = joy.current.y - s.y
+          const dist = Math.hypot(dx, dy)
+          if (dist > 4) {
+            const want = Math.atan2(dy, dx)
+            let diff = want - s.a
+            while (diff > Math.PI) diff -= Math.PI * 2
+            while (diff < -Math.PI) diff += Math.PI * 2
+            s.a += Math.max(-1, Math.min(1, diff)) * 0.05
+          }
+          if (dist > 26) {
+            s.vx += Math.cos(s.a) * 0.12; s.vy += Math.sin(s.a) * 0.12
+            if (Math.random() < 0.4) gg.pts.push({ x: s.x - Math.cos(s.a) * s.r, y: s.y - Math.sin(s.a) * s.r, vx: -Math.cos(s.a) * 2 + (Math.random() - 0.5) * 2, vy: -Math.sin(s.a) * 2 + (Math.random() - 0.5) * 2, life: 8 })
+          }
+        }
         s.vx *= 0.98; s.vy *= 0.98; s.x += s.vx; s.y += s.vy
         if (s.x < 0) s.x = W; if (s.x > W) s.x = 0; if (s.y < 0) s.y = H; if (s.y > H) s.y = 0
 
         if (gg.cd > 0) gg.cd--
-        if (keys.current.has(' ') && gg.cd === 0) {
+        if ((keys.current.has(' ') || fire.current) && gg.cd === 0) {
           gg.buls.push({ x: s.x + Math.cos(s.a) * s.r, y: s.y + Math.sin(s.a) * s.r, vx: Math.cos(s.a) * 7 + s.vx * 0.5, vy: Math.sin(s.a) * 7 + s.vy * 0.5, life: 50 })
           gg.cd = 8
         }
@@ -161,30 +197,39 @@ export function Asteroids() {
       if (stRef.current === 'idle') {
         ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '11px monospace'; ctx.textAlign = 'center'
         ctx.fillText('ARROWS: MOVE  SPACE: SHOOT', W / 2, H / 2 - 6)
-        ctx.fillText('DESTROY ALL ASTEROIDS', W / 2, H / 2 + 8)
+        ctx.fillText('TOUCH: DRAG TO STEER', W / 2, H / 2 + 8)
       }
       if (stRef.current === 'over') {
         ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'bold 14px monospace'; ctx.textAlign = 'center'
         ctx.fillText('DESTROYED', W / 2, H / 2 - 16)
         ctx.fillStyle = '#fbbf24'; ctx.font = 'bold 12px monospace'; ctx.fillText(`${gg.sc}`, W / 2, H / 2 + 2)
-        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '9px monospace'; ctx.fillText('PRESS SPACE TO RETRY', W / 2, H / 2 + 18)
+        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '9px monospace'; ctx.fillText('PRESS SPACE / TOUCH TO RETRY', W / 2, H / 2 + 18)
       }
       requestAnimationFrame(draw)
     }
     requestAnimationFrame(draw)
 
-    return () => { live.current = false; window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku) }
+    return () => { live.current = false; window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); c.removeEventListener('touchstart', ts); c.removeEventListener('touchmove', tm); c.removeEventListener('touchend', te) }
   }, [])
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE/ROTATE | SPACE: SHOOT ]</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE/ROTATE | SPACE: SHOOT ] — touch: drag to steer</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-amber-400 font-semibold">{score}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', touchAction: 'none' }} />
+      </div>
+      <div className="hidden pointer-coarse:flex justify-end pt-1">
+        <button
+          onPointerDown={e => { e.preventDefault(); fire.current = true }}
+          onPointerUp={() => { fire.current = false }}
+          onPointerLeave={() => { fire.current = false }}
+          onPointerCancel={() => { fire.current = false }}
+          className="h-12 w-20 select-none rounded-lg border border-amber-400/40 bg-amber-400/10 font-mono text-xs font-semibold text-amber-300 active:bg-amber-400/25 touch-none"
+        >FIRE</button>
       </div>
     </div>
   )

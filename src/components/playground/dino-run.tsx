@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { RotateCcw } from 'lucide-react'
+import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react'
 
 const W = 420, H = 300, G = 266
 
@@ -43,7 +43,8 @@ export function MarioGame() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [score, setScore] = React.useState(0)
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
 
   const levels = [
@@ -78,6 +79,13 @@ export function MarioGame() {
   }
 
   const keys = React.useRef(new Set<string>())
+
+  const pressKey = (k: string) => {
+    if (stRef.current === 'idle' || stRef.current === 'over') { restart(); return }
+    keys.current.add(k)
+    if ((k === ' ' || k === 'ArrowUp') && g.current.p.vy === 0) g.current.p.vy = -7.5
+  }
+  const releaseKey = (k: string) => keys.current.delete(k)
 
   React.useEffect(() => {
     const c = canvasRef.current; if (!c) return
@@ -206,13 +214,38 @@ export function MarioGame() {
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE | SPACE/UP: JUMP ] — collect coins, stomp goombas</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE | SPACE/UP: JUMP ] — touch: pad below</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-amber-400 font-semibold">{score}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', touchAction: 'none' }} />
+      </div>
+      <div className="hidden pointer-coarse:flex items-center justify-between pt-1">
+        <div className="flex gap-2">
+          <button
+            onPointerDown={e => { e.preventDefault(); pressKey('ArrowLeft') }}
+            onPointerUp={() => releaseKey('ArrowLeft')}
+            onPointerLeave={() => releaseKey('ArrowLeft')}
+            onPointerCancel={() => releaseKey('ArrowLeft')}
+            className="flex h-14 w-14 items-center justify-center rounded-lg border border-blue-400/40 bg-blue-400/10 text-blue-300 active:bg-blue-400/25 touch-none select-none"
+          ><ChevronLeft className="h-6 w-6" /></button>
+          <button
+            onPointerDown={e => { e.preventDefault(); pressKey('ArrowRight') }}
+            onPointerUp={() => releaseKey('ArrowRight')}
+            onPointerLeave={() => releaseKey('ArrowRight')}
+            onPointerCancel={() => releaseKey('ArrowRight')}
+            className="flex h-14 w-14 items-center justify-center rounded-lg border border-blue-400/40 bg-blue-400/10 text-blue-300 active:bg-blue-400/25 touch-none select-none"
+          ><ChevronRight className="h-6 w-6" /></button>
+        </div>
+        <button
+          onPointerDown={e => { e.preventDefault(); pressKey('ArrowUp') }}
+          onPointerUp={() => releaseKey('ArrowUp')}
+          onPointerLeave={() => releaseKey('ArrowUp')}
+          onPointerCancel={() => releaseKey('ArrowUp')}
+          className="h-14 w-20 rounded-lg border border-emerald-400/40 bg-emerald-400/10 font-mono text-xs font-semibold text-emerald-300 active:bg-emerald-400/25 touch-none select-none"
+        >JUMP</button>
       </div>
     </div>
   )

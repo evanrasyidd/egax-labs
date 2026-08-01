@@ -27,7 +27,8 @@ export function FlappyBird() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [score, setScore] = React.useState(0)
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
 
   const g = React.useRef({
@@ -56,11 +57,12 @@ export function FlappyBird() {
         g.current.b.vy = -5.5; g.current.b.t = 0
       }
     }
-    const mc = () => {
+    const mc = (e: PointerEvent) => {
+      e.preventDefault()
       if (stRef.current === 'idle' || stRef.current === 'over') { restart(); return }
       g.current.b.vy = -5.5; g.current.b.t = 0
     }
-    window.addEventListener('keydown', hk); c.addEventListener('click', mc)
+    window.addEventListener('keydown', hk); c.addEventListener('pointerdown', mc)
 
     function pipeY() { return 50 + Math.random() * (H - 140) }
 
@@ -110,30 +112,30 @@ export function FlappyBird() {
 
       if (stRef.current === 'idle') {
         ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '11px monospace'; ctx.textAlign = 'center'
-        ctx.fillText('SPACE / CLICK TO FLAP', W / 2, H / 2 - 6); ctx.fillText('DODGE THE PIPES', W / 2, H / 2 + 8)
+        ctx.fillText('SPACE / TAP TO FLAP', W / 2, H / 2 - 6); ctx.fillText('DODGE THE PIPES', W / 2, H / 2 + 8)
       }
       if (stRef.current === 'over') {
         ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'bold 14px monospace'; ctx.textAlign = 'center'
         ctx.fillText('CRASHED', W / 2, H / 2 - 16)
         ctx.fillStyle = '#fbbf24'; ctx.font = 'bold 12px monospace'; ctx.fillText(`${gg.sc}`, W / 2, H / 2 + 2)
-        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '9px monospace'; ctx.fillText('CLICK TO RETRY', W / 2, H / 2 + 18)
+        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.font = '9px monospace'; ctx.fillText('TAP TO RETRY', W / 2, H / 2 + 18)
       }
       requestAnimationFrame(draw)
     }
     requestAnimationFrame(draw)
 
-    return () => { live.current = false; window.removeEventListener('keydown', hk); c.removeEventListener('click', mc); clearInterval(interval) }
+    return () => { live.current = false; window.removeEventListener('keydown', hk); c.removeEventListener('pointerdown', mc); clearInterval(interval) }
   }, [])
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SPACE / CLICK: FLAP ] — navigate through pipes</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SPACE / TAP: FLAP ] — navigate through pipes</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-amber-400 font-semibold">{score}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', touchAction: 'none' }} />
       </div>
     </div>
   )

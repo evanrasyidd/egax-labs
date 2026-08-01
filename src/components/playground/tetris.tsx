@@ -20,7 +20,8 @@ export function Tetris() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const [score, setScore] = React.useState(0)
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
   const timeRef = React.useRef(0)
 
@@ -97,6 +98,45 @@ export function Tetris() {
     }
     window.addEventListener('keydown', hk)
 
+    let tx = 0, ty = 0, touching = false, tapped = true
+    const ts = (e: TouchEvent) => {
+      e.preventDefault()
+      const t = e.touches[0]
+      tx = t.clientX; ty = t.clientY; touching = true; tapped = true
+    }
+    const tm = (e: TouchEvent) => {
+      if (!touching) return
+      e.preventDefault()
+      const t = e.touches[0]
+      const dx = t.clientX - tx, dy = t.clientY - ty
+      if (Math.abs(dx) < 22 && Math.abs(dy) < 22) return
+      tapped = false
+      const gg = g.current
+      if (stRef.current !== 'playing') { restart(); return }
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) { if (!coll(gg.cur.shape, gg.cur.x + 1, gg.cur.y, gg.grid)) gg.cur.x++ }
+        else { if (!coll(gg.cur.shape, gg.cur.x - 1, gg.cur.y, gg.grid)) gg.cur.x-- }
+      } else if (dy > 0) {
+        while (!coll(gg.cur.shape, gg.cur.x, gg.cur.y + 1, gg.grid)) gg.cur.y++
+        lock(gg)
+      } else {
+        const rot = gg.cur.shape[0].map((_, i) => gg.cur.shape.map(r => r[i]).reverse())
+        if (!coll(rot, gg.cur.x, gg.cur.y, gg.grid)) gg.cur.shape = rot
+      }
+      tx = t.clientX; ty = t.clientY
+    }
+    const te = () => {
+      if (!touching) return
+      touching = false
+      if (!tapped || stRef.current !== 'playing') return
+      const gg = g.current
+      const rot = gg.cur.shape[0].map((_, i) => gg.cur.shape.map(r => r[i]).reverse())
+      if (!coll(rot, gg.cur.x, gg.cur.y, gg.grid)) gg.cur.shape = rot
+    }
+    c.addEventListener('touchstart', ts, { passive: false })
+    c.addEventListener('touchmove', tm, { passive: false })
+    c.addEventListener('touchend', te)
+
     const interval = setInterval(() => {
       if (stRef.current !== 'playing') return
       const gg = g.current
@@ -146,8 +186,8 @@ export function Tetris() {
 
       if (stRef.current === 'idle') {
         ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '11px monospace'; ctx.textAlign = 'center'
-        ctx.fillText('ARROWS: MOVE/ROTATE', W / 2, H / 2 - 12)
-        ctx.fillText('SPACE: HARD DROP', W / 2, H / 2 + 2); ctx.fillText('CLEAR LINES TO SCORE', W / 2, H / 2 + 16)
+        ctx.fillText('SWIPE: MOVE/DROP', W / 2, H / 2 - 12)
+        ctx.fillText('TAP: ROTATE', W / 2, H / 2 + 2); ctx.fillText('CLEAR LINES TO SCORE', W / 2, H / 2 + 16)
       }
       if (stRef.current === 'over') {
         ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'bold 14px monospace'; ctx.textAlign = 'center'
@@ -160,18 +200,18 @@ export function Tetris() {
     }
     requestAnimationFrame(draw)
 
-    return () => { live.current = false; window.removeEventListener('keydown', hk); clearInterval(interval) }
+    return () => { live.current = false; window.removeEventListener('keydown', hk); clearInterval(interval); c.removeEventListener('touchstart', ts); c.removeEventListener('touchmove', tm); c.removeEventListener('touchend', te) }
   }, [])
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE/ROTATE | SPACE: HARD DROP ]</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SWIPE: MOVE/DROP | TAP: ROTATE ]</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-purple-400 font-semibold">{score}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', touchAction: 'none' }} />
       </div>
     </div>
   )

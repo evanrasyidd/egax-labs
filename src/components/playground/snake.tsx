@@ -14,7 +14,8 @@ export function Snake() {
   const [score, setScore] = React.useState(0)
   const [hs, setHs] = React.useState(0)
   const [st, setSt] = React.useState<'idle' | 'playing' | 'over'>('idle')
-  const stRef = React.useRef(st); stRef.current = st
+  const stRef = React.useRef(st)
+  React.useEffect(() => { stRef.current = st })
   const live = React.useRef(true)
 
   const g = React.useRef({
@@ -52,6 +53,30 @@ export function Snake() {
       if (d.x !== -g.current.dir.x || d.y !== -g.current.dir.y) g.current.next = d
     }
     window.addEventListener('keydown', hk)
+
+    let sx = 0, sy = 0, touching = false
+    const ts = (e: TouchEvent) => {
+      e.preventDefault()
+      const t = e.touches[0]
+      sx = t.clientX; sy = t.clientY; touching = true
+    }
+    const tm = (e: TouchEvent) => {
+      if (!touching) return
+      e.preventDefault()
+      const t = e.touches[0]
+      const dx = t.clientX - sx, dy = t.clientY - sy
+      if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return
+      const d = Math.abs(dx) > Math.abs(dy)
+        ? { x: Math.sign(dx), y: 0 }
+        : { x: 0, y: Math.sign(dy) }
+      if (stRef.current === 'over' || stRef.current === 'idle') { restart(); return }
+      if (d.x !== -g.current.dir.x || d.y !== -g.current.dir.y) g.current.next = d
+      sx = t.clientX; sy = t.clientY
+    }
+    const te = () => { touching = false }
+    c.addEventListener('touchstart', ts, { passive: false })
+    c.addEventListener('touchmove', tm, { passive: false })
+    c.addEventListener('touchend', te)
 
     const interval = setInterval(() => {
       if (stRef.current !== 'playing') return
@@ -119,7 +144,7 @@ export function Snake() {
 
       if (stRef.current === 'idle') {
         ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = '11px monospace'; ctx.textAlign = 'center'
-        ctx.fillText('PRESS ANY ARROW', SZ * PX / 2, SZ * PX / 2 - 6); ctx.fillText('TO START', SZ * PX / 2, SZ * PX / 2 + 8)
+        ctx.fillText('SWIPE OR PRESS ARROWS', SZ * PX / 2, SZ * PX / 2 - 6); ctx.fillText('TO START', SZ * PX / 2, SZ * PX / 2 + 8)
       }
       if (stRef.current === 'over') {
         ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = 'bold 14px monospace'; ctx.textAlign = 'center'
@@ -131,20 +156,20 @@ export function Snake() {
     }
     requestAnimationFrame(draw)
 
-    return () => { live.current = false; window.removeEventListener('keydown', hk); clearInterval(interval) }
+    return () => { live.current = false; window.removeEventListener('keydown', hk); clearInterval(interval); c.removeEventListener('touchstart', ts); c.removeEventListener('touchmove', tm); c.removeEventListener('touchend', te) }
   }, [])
 
   const W = SZ * PX
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROW KEYS ] — eat, grow, survive</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SWIPE / ARROW KEYS ] — eat, grow, survive</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-emerald-400 font-semibold">{score}</span></span>
         <span className="font-mono text-muted-foreground">BEST: <span className="text-foreground/60">{hs}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">
-        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated' }} />
+        <canvas ref={canvasRef} className="block" style={{ width: W, maxWidth: '100%', height: 'auto', imageRendering: 'pixelated', touchAction: 'none' }} />
       </div>
     </div>
   )
