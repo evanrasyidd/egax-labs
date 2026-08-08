@@ -5,7 +5,7 @@ import { useRouter } from './router'
 import { GlobalSearch } from './global-search'
 
 /**
- * Global search layer — handles keyboard shortcut (Cmd/Ctrl+/) and renders the search modal.
+ * Global search layer handles keyboard shortcut (Cmd/Ctrl+/) and renders the search modal.
  */
 export function GlobalSearchLayer() {
   const { navigate } = useRouter()

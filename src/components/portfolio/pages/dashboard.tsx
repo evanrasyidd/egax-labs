@@ -3,8 +3,10 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import {
-  Eye, Users, GitCommitHorizontal, Star, Users2, GitFork, FolderGit2,
-  Clock, Activity, TrendingUp, Flame, UserCheck, Code2,
+  Eye, Activity, GitCommitHorizontal, Star, GitFork,
+  FolderKanban, Medal, MessageSquareHeart, Mail, Binoculars,
+  CalendarDays, Boxes, Sparkle, UserRoundPlus, UsersRound,
+  Crown, Timer, Braces, Footprints,
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -122,12 +124,12 @@ export function DashboardPage() {
               </CardContent></Card>
             )) : (
               <>
-                <StatCard icon={Eye} label={t.dashboard.projects} value={dash?.totals.projects ?? 0} color="text-blue-500" />
-                <StatCard icon={Star} label={t.dashboard.achievements} value={dash?.totals.achievements ?? 0} color="text-amber-500" />
-                <StatCard icon={Users} label={t.dashboard.guestbook} value={dash?.totals.guestbook ?? 0} color="text-emerald-500" />
-                <StatCard icon={GitCommitHorizontal} label={t.dashboard.messages} value={dash?.totals.messages ?? 0} color="text-purple-500" />
-                <StatCard icon={Users2} label={t.dashboard.visitors} value={traffic?.totals.visitors ?? 0} color="text-rose-500" />
-                <StatCard icon={Activity} label={t.dashboard.trackedDays} value={traffic?.totals.trackedDays ?? 0} color="text-cyan-500" />
+                <StatCard icon={FolderKanban} label={t.dashboard.projects} value={dash?.totals.projects ?? 0} color="text-blue-500" />
+                <StatCard icon={Medal} label={t.dashboard.achievements} value={dash?.totals.achievements ?? 0} color="text-amber-500" />
+                <StatCard icon={MessageSquareHeart} label={t.dashboard.guestbook} value={dash?.totals.guestbook ?? 0} color="text-emerald-500" />
+                <StatCard icon={Mail} label={t.dashboard.messages} value={dash?.totals.messages ?? 0} color="text-purple-500" />
+                <StatCard icon={Binoculars} label={t.dashboard.visitors} value={traffic?.totals.visitors ?? 0} color="text-rose-500" />
+                <StatCard icon={CalendarDays} label={t.dashboard.trackedDays} value={traffic?.totals.trackedDays ?? 0} color="text-cyan-500" />
               </>
             )}
           </div>
@@ -167,13 +169,13 @@ export function DashboardPage() {
               </CardContent></Card>
             )) : (
               <>
-                <StatCard icon={FolderGit2} label={t.dashboard.repos} value={gh?.publicRepos ?? 0} color="text-blue-500" />
-                <StatCard icon={Star} label={t.dashboard.stars} value={gh?.totalStars ?? 0} color="text-amber-500" />
+                <StatCard icon={Boxes} label={t.dashboard.repos} value={gh?.publicRepos ?? 0} color="text-blue-500" />
+                <StatCard icon={Sparkle} label={t.dashboard.stars} value={gh?.totalStars ?? 0} color="text-amber-500" />
                 <StatCard icon={GitFork} label={t.dashboard.forks} value={gh?.totalForks ?? 0} color="text-emerald-500" />
-                <StatCard icon={Users2} label={t.dashboard.followers} value={gh?.followers ?? 0} color="text-purple-500" />
-                <StatCard icon={Users} label={t.dashboard.following} value={gh?.following ?? 0} color="text-rose-500" />
-                <StatCard icon={TrendingUp} label={t.dashboard.thisWeek} value={gh?.thisWeekCommits ?? 0} color="text-cyan-500" />
-                <StatCard icon={Flame} label={t.dashboard.bestDay} value={gh?.bestDayCommits ?? 0} color="text-orange-500" />
+                <StatCard icon={UserRoundPlus} label={t.dashboard.followers} value={gh?.followers ?? 0} color="text-purple-500" />
+                <StatCard icon={UsersRound} label={t.dashboard.following} value={gh?.following ?? 0} color="text-rose-500" />
+                <StatCard icon={GitCommitHorizontal} label={t.dashboard.thisWeek} value={gh?.thisWeekCommits ?? 0} color="text-cyan-500" />
+                <StatCard icon={Crown} label={t.dashboard.bestDay} value={gh?.bestDayCommits ?? 0} color="text-orange-500" />
               </>
             )}
           </div>
@@ -182,7 +184,7 @@ export function DashboardPage() {
             <Card className="mt-3 overflow-hidden border-border/60">
               <CardContent className="p-5">
                 <div className="mb-4 flex items-center gap-2">
-                  <Code2 className="h-4 w-4 text-primary" />
+                  <Braces className="h-4 w-4 text-primary" />
                   <h3 className="text-sm font-semibold">{t.dashboard.topLanguages}</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -225,7 +227,7 @@ export function DashboardPage() {
           <section>
             <div className="mb-4">
               <h2 className="flex items-center gap-2 text-lg font-semibold">
-                <Clock className="h-4 w-4 text-primary" /> {t.dashboard.wakatime}
+                <Timer className="h-4 w-4 text-primary" /> {t.dashboard.wakatime}
                 <Badge variant="outline" className="text-[10px] font-normal ml-1">
                   {waka?.live ? t.dashboard.live : t.dashboard.demo}
                 </Badge>
@@ -309,7 +311,7 @@ function VisitStatsSection({ t }: { t: ReturnType<typeof useTranslation>['t'] })
   return (
     <section>
       <div className="mb-4">
-        <h2 className="flex items-center gap-2 text-lg font-semibold"><UserCheck className="h-4 w-4 text-primary" /> {t.dashboard.yourVisit}</h2>
+        <h2 className="flex items-center gap-2 text-lg font-semibold"><Footprints className="h-4 w-4 text-primary" /> {t.dashboard.yourVisit}</h2>
         <p className="text-xs text-muted-foreground">{t.dashboard.yourVisitDesc}</p>
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
@@ -321,7 +323,7 @@ function VisitStatsSection({ t }: { t: ReturnType<typeof useTranslation>['t'] })
             <Activity className="mb-1.5 h-4 w-4 text-emerald-500" /><div className="text-xl font-bold tabular-nums">{Object.keys(views.perRoute).length}</div><div className="text-[11px] text-muted-foreground">{t.dashboard.pages}</div>
           </CardContent></Card>
           <Card className="border-border/60"><CardContent className="p-4">
-            <Clock className="mb-1.5 h-4 w-4 text-amber-500" /><div className="text-xl font-bold tabular-nums">{sessionDuration}</div><div className="text-[11px] text-muted-foreground">{t.dashboard.sessionMin}</div>
+            <Timer className="mb-1.5 h-4 w-4 text-amber-500" /><div className="text-xl font-bold tabular-nums">{sessionDuration}</div><div className="text-[11px] text-muted-foreground">{t.dashboard.sessionMin}</div>
           </CardContent></Card>
         </div>
         <Card className="overflow-hidden border-border/60 lg:col-span-2"><CardContent className="p-5">

@@ -40,7 +40,7 @@ const en: Dict = {
   home: {
     heroTitle: 'EvanRasyidd Labs',
     heroTagline: 'Fullstack Engineer & Creative Developer',
-    heroDesc1: 'Building interfaces, exploring boundaries — frontend experiments,<br />creative coding, and everything in between.',
+    heroDesc1: 'Building interfaces, exploring boundaries frontend experiments,<br />creative coding, and everything in between.',
     heroDesc2: 'A personal lab where code meets creativity. From physics simulations to interactive 3D, every project is a lesson.',
     viewExperiments: 'View Experiments',
     aboutMe: 'About the Lab',
@@ -51,6 +51,12 @@ const en: Dict = {
     labActivity: 'Lab Activity',
     labActivityDesc: "What's happening in the lab right now.",
     labActive: 'Lab Active',
+    nowItems: {
+      building: { label: 'Currently building', value: 'Creative Lab', detail: 'Interactive coding experiments' },
+      learning: { label: 'Learning', value: 'Three.js & WebGL', detail: '3D visualization experiments' },
+      reading: { label: 'Reading', value: 'Atomic Design', detail: 'Brad Frost structuring UI systems' },
+      listening: { label: 'Listening to', value: 'Phonk & DJ Angkot', detail: 'High-octane beats, no lofi' },
+    },
     statsProjects: 'Projects',
     statsExperiments: 'Experiments',
     statsDevlogs: 'Devlogs',
@@ -60,9 +66,9 @@ const en: Dict = {
     pageTitle: 'About the Lab',
     pageDesc: 'How this site is built, why it exists, and what powers it.',
     purpose: 'Purpose & Vision',
-    purposeDesc: 'A personal creative coding lab and portfolio built as an experimental space for frontend exploration. Every page, component, and experiment is a chance to push boundaries and try new approaches — not just to showcase work, but to document the process: the discoveries, dead ends, and "aha" moments.',
+    purposeDesc: 'A personal creative coding lab and portfolio built as an experimental space for frontend exploration. Every page, component, and experiment is a chance to push boundaries and try new approaches not just to showcase work, but to document the process: the discoveries, dead ends, and "aha" moments.',
     architecture: 'Architecture',
-    architectureDesc: 'Built with Next.js 16 App Router using a catch-all route for SPA-like navigation with smooth transitions via Framer Motion AnimatePresence. Data persistence uses PostgreSQL on Neon — serverless, autoscaling, zero maintenance overhead. Guestbook and contact messages store directly to the database, while dashboard stats aggregate from GitHub and WakaTime APIs. i18n is handled with a lightweight React Context wrapper instead of external libraries.',
+    architectureDesc: 'Built with Next.js 16 App Router using a catch-all route for SPA-like navigation with smooth transitions via Framer Motion AnimatePresence. Data persistence uses PostgreSQL on Neon serverless, autoscaling, zero maintenance overhead. Guestbook and contact messages store directly to the database, while dashboard stats aggregate from GitHub and WakaTime APIs. i18n is handled with a lightweight React Context wrapper instead of external libraries.',
     siteStats: 'Site Stats',
     siteStatsDesc: 'Live numbers from this site.',
     colophon: 'Colophon',
@@ -74,9 +80,9 @@ const en: Dict = {
   },
   playground: {
     pageTitle: 'Playground',
-    pageDesc: 'Mini games — click and play.',
+    pageDesc: 'Mini games click and play.',
     games: {
-      snake: { title: 'Snake', desc: 'Classic snake — eat, grow, survive' },
+      snake: { title: 'Snake', desc: 'Classic snake eat, grow, survive' },
       asteroids: { title: 'Asteroids', desc: 'Destroy asteroids, stay alive' },
       flappy: { title: 'Flappy Bird', desc: 'Tap to fly, dodge the pipes' },
       tetris: { title: 'Tetris', desc: 'Stack blocks, clear lines' },
@@ -86,10 +92,36 @@ const en: Dict = {
   },
   experiments: {
     pageTitle: 'Experiments',
-    pageDesc: 'Interactive coding experiments — physics, 3D, creative UI, and other technical explorations.',
+    pageDesc: 'Interactive coding experiments physics, 3D, creative UI, and other technical explorations.',
     badge: 'experiments',
     detailBack: 'Back',
     featured: 'Featured',
+    projectCopy: {
+      'rasga-coffee-studio': {
+        desc: 'QR-per-table ordering system for coffee shops, live admin dashboard, POS, table reservations, and event management.',
+        longDesc: 'Every table has its own QR code printed from the admin panel. Customers scan it and order straight from their phone, no app download and no account needed. Orders stream into a real-time admin dashboard covering menu management, order management, table reservations, and an events calendar. There is also a separate POS interface with PIN login for staff handling orders at the counter.\n\nSecurity: PIN and passwords use constant-time comparison to close timing-attack holes. Payments are intentionally simulated (a documented decision, not a shortcut) until Midtrans is integrated for production.',
+      },
+      'egax-studios': {
+        desc: 'Fashion e-commerce with a 3D hero, separate POS, and admin dashboard in one platform.',
+        longDesc: 'Full storefront: product catalog with filter/sort, product detail pages, simulated checkout (QRIS/e-wallet/virtual account), and a customer account area with order history, wishlist, and saved addresses.\n\nStaff access /pos with a PIN login (separate from the admin username/password flow) to handle offline sales. Admins manage products, orders, and staff accounts from their own dashboard.\n\nCredentials: passwords and PINs are hashed with SHA-256+salt and can not be bypassed by flipping flags in the browser console. The 3D hero uses React Three Fiber + Rapier, originally built with drei HDRI which kept crashing WebGL, rebuilt with manual lighting (ambient + directional + point light) and no external dependencies.',
+      },
+      invoicegua: {
+        desc: 'Local-first invoicing PWA for Indonesian freelancers, no server, PDF export, share via WhatsApp.',
+        longDesc: 'Zero backend: Dexie (an IndexedDB wrapper) is the entire data layer. The app works fully offline and data stays on the user device.\n\nInvoices and quotations auto-calculate tax/discount/down-payment, with one-click quotation-to-invoice conversion and client records that snapshot data into every document (editing a client never changes old invoices).\n\nPDFs use @react-pdf/renderer (selectable text, not screenshots), and there is a WhatsApp deep link to send a document summary to a client phone number.\n\nLocal auth: SHA-256+salt via the Web Crypto API with session storage. A backup/restore flow exports the whole dataset as JSON.',
+      },
+      egalog: {
+        desc: 'Full HRIS: selfie+geofencing attendance, automated payroll, recruitment pipeline, 5 role levels.',
+        longDesc: 'Five role levels (Owner to Staff) with server-enforced route protection, the audit matrix in the repo documents which role can access which page, verified with curl requests.\n\nClock-in/out requires a live camera selfie (gallery upload is rejected) plus office geofencing radius. Payroll auto-generates monthly slips: transport/meal allowances are calculated from actual attendance days, overtime from clock-out minus clock-in delta, and unexplained absences are cross-checked against approved leave.\n\nLeave uses an automated multi-level approval chain. Quarterly performance reviews with draft-to-final workflow. Recruitment has a public /karir page feeding the same pipeline as the internal candidate board. There is also a System Admin account, completely separate from the employee table.',
+      },
+      egaxdev: {
+        desc: 'Single-page portfolio: 3D physics hero with live GitHub activity, physics-tilt project cards, and a Supabase contact form.',
+        longDesc: 'A trimmed-down version of the main portfolio, intentionally only 3 sections: Hero, Work, and Contact. The hero has a 3D physics badge (React Three Fiber + Rapier) showing live GitHub activity, project cards tilt with physics following the cursor, and the contact form saves messages to Supabase without needing email.\n\nDark/light mode uses a circular reveal via the View Transitions API, bilingual EN/ID, and compositor-driven native smooth scroll without a JS library.',
+      },
+      evanrasyidd: {
+        desc: 'Scroll-heavy portfolio with GSAP animation: SplitText, scramble text, ScrollTrigger, and Lenis smooth scroll.',
+        longDesc: 'A single-page portfolio with fully choreographed scrolling: text revealed character by character with SplitText, scramble effects with ScrambleTextPlugin, custom easing with CustomEase, and every section synced to ScrollTrigger. Lenis handles smooth scroll and is synced directly to ScrollTrigger so animations never stutter.\n\nBilingual EN/ID with Zustand, dark/light theme, and static export to Vercel.',
+      },
+    },
   },
   dashboard: {
     pageTitle: 'Dashboard',
@@ -106,7 +138,7 @@ const en: Dict = {
     trafficVisitors: 'Visitors',
     trafficViews: 'Views',
     activity: 'GitHub Activity',
-    activityDesc: 'Real-time data from GitHub — repos, stars, and contributions.',
+    activityDesc: 'Real-time data from GitHub repos, stars, and contributions.',
     repos: 'Repos',
     stars: 'Stars',
     forks: 'Forks',

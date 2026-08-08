@@ -8,7 +8,7 @@ import {
   Sparkles,
   Gamepad2,
   FlaskConical,
-  LayoutDashboard,
+  Gauge,
   Notebook,
   BookOpen,
   Mail,
@@ -34,7 +34,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   sparkles: Sparkles,
   'gamepad-2': Gamepad2,
   'flask-conical': FlaskConical,
-  'layout-dashboard': LayoutDashboard,
+  'layout-dashboard': Gauge,
   notebook: Notebook,
   'book-open': BookOpen,
   mail: Mail,
@@ -84,8 +84,8 @@ export function Sidebar() {
         onClick={() => handleNav('home')}
         className="group flex w-full items-center gap-2.5 rounded-lg p-1 text-left transition-colors hover:bg-accent/50"
       >
-        <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl ring-2 ring-primary/20">
-          <Image src="/images/avatar.png" alt={persona.name} fill className="object-cover" sizes="48px" />
+        <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-border">
+          <Image src="/images/avatar.webp" alt={persona.name} fill className="object-cover" sizes="48px" />
         </span>
         <span className="flex flex-col leading-tight">
           <span className="text-sm font-semibold">{persona.name}</span>
@@ -126,8 +126,8 @@ export function Sidebar() {
           className="flex items-center gap-2"
           aria-label={t.sidebar.homeAria}
         >
-          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl">
-            <Image src="/images/avatar.png" alt={persona.name} fill className="object-cover" sizes="36px" />
+          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border-2 border-border">
+            <Image src="/images/avatar.webp" alt={persona.name} fill className="object-cover" sizes="36px" />
           </span>
           <span className="text-sm font-semibold">{persona.name}</span>
         </button>

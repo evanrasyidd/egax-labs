@@ -1,3 +1,5 @@
+import type { TechName } from '@/components/portfolio/tech-icon'
+
 export const persona = {
   name: 'Evan Rasyid Ega Pratama',
   firstName: 'Evan',
@@ -10,7 +12,7 @@ export const persona = {
   githubUser: 'evanrasyidd',
   homeIntro: `Frontend Engineer yang suka bereksperimen dengan interactive coding, physics simulation, 3D visualization, dan UI yang gak biasa. Lab ini tempat documenting semua experiment & creative coding.`,
   aboutParagraphs: [
-    `Halo, saya Evan Rasyid Ega Pratama — Frontend Engineer dari Indonesia. Ini lab eksperimen pribadi saya untuk interactive coding, creative UI, physics simulation, 3D visualization, dan hal-hal random lain yang menarik buat dieksplor.`,
+    `Halo, saya Evan Rasyid Ega Pratama Frontend Engineer dari Indonesia. Ini lab eksperimen pribadi saya untuk interactive coding, creative UI, physics simulation, 3D visualization, dan hal-hal random lain yang menarik buat dieksplor.`,
     `Semua yang ada di sini dibangun pake Next.js, TypeScript, Three.js, Matter.js, Framer Motion, dan berbagai library keren lainnya. Setiap experiment adalah kesempatan buat belajar sesuatu yang baru.`,
     `Di luar coding, saya aktif di komunitas developer Indonesia, kadang nulis catatan teknis, dan eksperimen dengan berbagai tools buat ningkatin produktivitas. Saya open untuk diskusi, kolaborasi, dan opportunity baru.`,
     `Best regards,`,
@@ -28,46 +30,57 @@ export type SkillCategory = 'Main' | 'Frontend' | 'Backend' | 'Mobile' | 'Databa
 export interface Skill {
   name: string
   category: SkillCategory
-  icon: string
+  icon: TechName
   color?: string
 }
 
 export const skills: Skill[] = [
-  { name: 'HTML', category: 'Main', icon: 'html', color: '#E34F26' },
-  { name: 'CSS', category: 'Main', icon: 'css', color: '#1572B6' },
+  { name: 'HTML & CSS', category: 'Main', icon: 'html5', color: '#E34F26' },
   { name: 'JavaScript', category: 'Main', icon: 'javascript', color: '#F7DF1E' },
   { name: 'TypeScript', category: 'Main', icon: 'typescript', color: '#3178C6' },
-  { name: 'TailwindCSS', category: 'Main', icon: 'tailwind', color: '#06B6D4' },
+  { name: 'Tailwind CSS', category: 'Main', icon: 'tailwindcss', color: '#06B6D4' },
 
-  { name: 'React.js', category: 'Frontend', icon: 'react', color: '#61DAFB' },
-  { name: 'Next.js', category: 'Frontend', icon: 'nextjs', color: '#000000' },
+  { name: 'React', category: 'Frontend', icon: 'react', color: '#61DAFB' },
+  { name: 'Next.js', category: 'Frontend', icon: 'nextdotjs', color: '#000000' },
+  { name: 'React Three Fiber', category: 'Frontend', icon: 'threedotjs', color: '#000000' },
+  { name: 'WebGL', category: 'Frontend', icon: 'webgl', color: '#990000' },
+  { name: 'GSAP', category: 'Frontend', icon: 'greensock', color: '#88CE02' },
+  { name: 'Matter.js', category: 'Frontend', icon: 'matterdotjs', color: '#4A90D9' },
+  { name: 'Framer Motion', category: 'Frontend', icon: 'framer', color: '#0055FF' },
+  { name: 'shadcn/ui', category: 'Frontend', icon: 'shadcnui', color: '#000000' },
   { name: 'Vite', category: 'Frontend', icon: 'vite', color: '#646CFF' },
   { name: 'Redux', category: 'Frontend', icon: 'redux', color: '#764ABC' },
   { name: 'Zustand', category: 'Frontend', icon: 'zustand', color: '#000000' },
-  { name: 'Framer Motion', category: 'Frontend', icon: 'framer', color: '#0055FF' },
-  { name: 'Shadcn UI', category: 'Frontend', icon: 'shadcn', color: '#000000' },
-  { name: 'Zod', category: 'Frontend', icon: 'zod', color: '#3E67B1' },
   { name: 'React Hook Form', category: 'Frontend', icon: 'reacthookform', color: '#EC5990' },
+  { name: 'Lucide', category: 'Frontend', icon: 'lucide', color: '#F56565' },
 
-  { name: 'Flutter', category: 'Mobile', icon: 'flutter', color: '#40C4FF' },
-  { name: 'Dart', category: 'Mobile', icon: 'dart', color: '#1565C0' },
+  { name: 'Flutter', category: 'Mobile', icon: 'flutter', color: '#42D1FF' },
+  { name: 'Dart', category: 'Mobile', icon: 'dart', color: '#0175C2' },
   { name: 'Kotlin', category: 'Mobile', icon: 'kotlin', color: '#7F52FF' },
 
-  { name: 'Node.js', category: 'Backend', icon: 'nodejs', color: '#339933' },
-  { name: 'Express.js', category: 'Backend', icon: 'express', color: '#000000' },
+  { name: 'Node.js', category: 'Backend', icon: 'nodedotjs', color: '#83CD29' },
+  { name: 'Express', category: 'Backend', icon: 'express', color: '#000000' },
+  { name: 'Zod', category: 'Backend', icon: 'zod', color: '#3E67B1' },
+  { name: 'Neon', category: 'Backend', icon: 'neon', color: '#00E599' },
 
   { name: 'Prisma', category: 'Database', icon: 'prisma', color: '#2D3748' },
-  { name: 'PostgreSQL', category: 'Database', icon: 'postgresql', color: '#4169E1' },
+  { name: 'PostgreSQL', category: 'Database', icon: 'postgresql', color: '#336791' },
   { name: 'MySQL', category: 'Database', icon: 'mysql', color: '#4479A1' },
   { name: 'Firebase', category: 'Database', icon: 'firebase', color: '#FFCA28' },
   { name: 'Supabase', category: 'Database', icon: 'supabase', color: '#3ECF8E' },
 
   { name: 'Git', category: 'Tools', icon: 'git', color: '#F05032' },
-  { name: 'VS Code', category: 'Tools', icon: 'vscode', color: '#007ACC' },
-  { name: 'Figma', category: 'Tools', icon: 'figma', color: '#F24E1E' },
+  { name: 'GitHub', category: 'Tools', icon: 'github', color: '#000000' },
   { name: 'Docker', category: 'Tools', icon: 'docker', color: '#2496ED' },
   { name: 'Bun', category: 'Tools', icon: 'bun', color: '#000000' },
+  { name: 'Vitest', category: 'Tools', icon: 'vitest', color: '#6E9F18' },
+  { name: 'Figma', category: 'Tools', icon: 'figma', color: '#F24E1E' },
+  { name: 'Vercel', category: 'Tools', icon: 'vercel', color: '#000000' },
+  { name: 'VS Code', category: 'Tools', icon: 'visualstudiocode', color: '#007ACC' },
   { name: 'Npm', category: 'Tools', icon: 'npm', color: '#CB3837' },
+  { name: 'Claude', category: 'Tools', icon: 'claude', color: '#D97757' },
+  { name: 'OpenCode', category: 'Tools', icon: 'opencode', color: '#000000' },
+  { name: 'DeepSeek', category: 'Tools', icon: 'deepseek', color: '#4D6BFE' },
 ]
 
 export interface CareerItem {
@@ -83,7 +96,7 @@ export interface CareerItem {
 export const career: CareerItem[] = [
   { role: 'Frontend Engineer (Intern)', company: 'Tech Startup', location: 'Jakarta, Indonesia', period: 'Jun 2025 – Present', duration: '6 mos', type: 'Internship', mode: 'Hybrid' },
   { role: 'Freelance Web Developer', company: 'Self-employed', location: 'Indonesia', period: 'Jan 2024 – Present', duration: '2 yrs 6 mos', type: 'Freelance', mode: 'Remote' },
-  { role: 'Teaching Assistant — Computer Science', company: 'Universitas Indonesia', location: 'Depok, Indonesia', period: 'Aug 2024 – Dec 2024', duration: '5 mos', type: 'Part-time', mode: 'On-site' },
+  { role: 'Teaching Assistant Computer Science', company: 'Universitas Indonesia', location: 'Depok, Indonesia', period: 'Aug 2024 – Dec 2024', duration: '5 mos', type: 'Part-time', mode: 'On-site' },
 ]
 
 export interface EducationItem {
@@ -175,14 +188,14 @@ export const nowItems: NowItem[] = [
   {
     label: 'Reading',
     value: 'Atomic Design',
-    detail: 'Brad Frost — structuring UI systems',
+    detail: 'Brad Frost structuring UI systems',
     icon: 'book',
     status: 'reading',
   },
   {
     label: 'Listening to',
-    value: 'Lofi Girl',
-    detail: 'Beats to code/relax to',
+    value: 'Phonk & DJ Angkot',
+    detail: 'Bass nghentak biar coding makin ngegas',
     icon: 'music',
     status: 'listening',
   },
@@ -205,7 +218,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '1',
     slug: 'building-egalog-hris',
-    title: 'Building EgaLog — Full HRIS with Selfie Attendance & Auto Payroll',
+    title: 'Building EgaLog Full HRIS with Selfie Attendance & Auto Payroll',
     excerpt: 'How I built a complete HR management system with QR-based attendance, selfie verification, and automated payroll from scratch.',
     content: `## Why EgaLog?
 
@@ -219,7 +232,7 @@ The stack is Next.js App Router for the frontend, Prisma + SQLite for data, and 
 
 - SQLite instead of PostgreSQL because most SMEs don't have a dedicated server setup. File-based DB means backup is just copying a file.
 - QR code per shift, not per employee. One QR per room/shift group, employees scan and their assigned shift auto-detects.
-- Selfie verification runs a basic similarity check — not production-grade facial recognition, but enough to prevent buddy punching.
+- Selfie verification runs a basic similarity check not production-grade facial recognition, but enough to prevent buddy punching.
 
 ## The Attendance Flow
 
@@ -243,7 +256,7 @@ The biggest lesson was that enterprise features don't need enterprise complexity
   {
     id: '2',
     slug: 'building-invoicegua',
-    title: 'InvoiceGUA — Local-First Invoicing PWA for Freelancers',
+    title: 'InvoiceGUA Local-First Invoicing PWA for Freelancers',
     excerpt: 'Designing an offline-capable invoicing app that works without internet and syncs when connected.',
     content: `## The Problem
 
@@ -284,7 +297,7 @@ The roadmap includes: bank transfer auto-verification via partner API, recurring
   {
     id: '3',
     slug: 'rasga-coffee-studio',
-    title: 'RASGA Coffee Studio — QR Table-Ordering System',
+    title: 'RASGA Coffee Studio QR Table-Ordering System',
     excerpt: 'Replacing paper menus with QR-based ordering for a local coffee shop, built with Next.js and real-time updates.',
     content: `## The Context
 
@@ -315,7 +328,7 @@ The admin panel shows live orders, daily revenue, popular items, and inventory a
 
 SSE works great for this use case but has connection limits per browser. For a single coffee shop with ~30 tables, it's fine. For larger deployments, I'd switch to WebSocket or use a real-time service.
 
-The hardest part was not technical — it was mapping the coffee shop's workflow into the system. Every shop has slightly different procedures (prepay vs postpay, self-service vs waiter service). The system needed to be configurable, not hardcoded.`,
+The hardest part was not technical it was mapping the coffee shop's workflow into the system. Every shop has slightly different procedures (prepay vs postpay, self-service vs waiter service). The system needed to be configurable, not hardcoded.`,
     category: 'Fullstack',
     tags: ['Next.js', 'SSE', 'Prisma', 'Real-Time'],
     date: '2026-07-05',
@@ -325,7 +338,7 @@ The hardest part was not technical — it was mapping the coffee shop's workflow
   {
     id: '4',
     slug: 'egax-studios-ecommerce',
-    title: 'EGAX Studios — Fashion E-Commerce with 3D Showcase',
+    title: 'EGAX Studios Fashion E-Commerce with 3D Showcase',
     excerpt: 'Building an online fashion store with interactive 3D product viewer and integrated POS system for offline sales.',
     content: `## Project Scope
 
@@ -354,7 +367,7 @@ Real-time inventory across online + offline required careful locking. I used opt
 
 ## What I'd Do Differently
 
-The monolith approach (Next.js handles both web store and POS) worked for MVP but should be split if the business grows. The POS needs higher reliability than the web store — if the web store is down, customers can't browse, but if the POS is down during an event, cashiers can't sell at all.
+The monolith approach (Next.js handles both web store and POS) worked for MVP but should be split if the business grows. The POS needs higher reliability than the web store if the web store is down, customers can't browse, but if the POS is down during an event, cashiers can't sell at all.
 
 Future architecture: separate POS as a standalone PWA that operates independently from the main website.`,
     category: 'Fullstack',
@@ -370,15 +383,15 @@ Future architecture: separate POS as a standalone PWA that operates independentl
     excerpt: 'A look at the tools, practices, and mental models I use daily as a frontend engineer.',
     content: `## The Stack
 
-My default stack hasn't changed dramatically — Next.js, TypeScript, Tailwind CSS, Prisma. But how I use them has evolved.
+My default stack hasn't changed dramatically Next.js, TypeScript, Tailwind CSS, Prisma. But how I use them has evolved.
 
 ## Component Architecture
 
 I moved away from "everything is a folder" pattern. Now I keep components flat with a naming convention that makes the hierarchy obvious:
 
-- \`user-form.tsx\` — a form component
-- \`user-list.tsx\` — a list component
-- \`user-card.tsx\` — a card component inside the list
+- \`user-form.tsx\` a form component
+- \`user-list.tsx\` a list component
+- \`user-card.tsx\` a card component inside the list
 
 If a component has sub-components, I co-locate them in the same file until they grow enough to justify extraction. Premature modularization creates more files to jump between without actual benefit.
 
@@ -398,7 +411,7 @@ The config is split into theme tokens (colors, fonts, spacing) and component def
 
 I stopped optimizing prematurely. Ship working code first, measure with Lighthouse, then optimize the actual bottlenecks. 90% of the time the bottleneck is images or unoptimized fonts, not React re-renders.
 
-This doesn't mean write careless code — it means don't add memorization, virtualization, or code splitting before the feature works.
+This doesn't mean write careless code it means don't add memorization, virtualization, or code splitting before the feature works.
 
 ## What I'm Exploring
 
@@ -418,7 +431,7 @@ Also learning more about Rust through Tauri for a desktop companion app idea.`,
     excerpt: 'How I built 6 retro-style pixel games using HTML Canvas and React, and what I learned about game loops.',
     content: `## The Idea
 
-The Playground section of my portfolio needed something more interactive than static project cards. I wanted mini-games that visitors could play instantly — no installs, no loading screens, just click and play.
+The Playground section of my portfolio needed something more interactive than static project cards. I wanted mini-games that visitors could play instantly no installs, no loading screens, just click and play.
 
 ## Stack Choices
 
@@ -446,7 +459,7 @@ Pong: green player paddle vs red AI, 20-frame ball trail, center dashed line.
 
 ## Rendering
 
-The pixel art is drawn programmatically using \`fillRect\` calls — no sprite sheets or image assets. Each game has a render function that draws the scene based on game state. This keeps the bundle size tiny and the load time instant.
+The pixel art is drawn programmatically using \`fillRect\` calls no sprite sheets or image assets. Each game has a render function that draws the scene based on game state. This keeps the bundle size tiny and the load time instant.
 
 The canvas style is locked to \`imageRendering: pixelated\` for that crisp retro look, with dark background \`#0f0f14\` and monospace fonts for HUD elements.
 
@@ -454,7 +467,7 @@ The canvas style is locked to \`imageRendering: pixelated\` for that crisp retro
 
 Game development in React is different from regular React development. The mental model shifts from declarative (this state renders this UI) to imperative (every frame, clear canvas and redraw everything based on state).
 
-Not using a game engine was intentional — it forces understanding of the game loop, delta time, collision detection, and state management at a fundamental level. Next time I'd probably still do the same for small games like this.`,
+Not using a game engine was intentional it forces understanding of the game loop, delta time, collision detection, and state management at a fundamental level. Next time I'd probably still do the same for small games like this.`,
     category: 'Next.js',
     tags: ['Canvas', 'Games', 'React', 'Pixel Art'],
     date: '2026-06-15',

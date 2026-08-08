@@ -214,7 +214,7 @@ export function Asteroids() {
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE/ROTATE | SPACE: SHOOT ] — touch: drag to steer</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ ARROWS: MOVE/ROTATE | SPACE: SHOOT ] touch: drag to steer</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-amber-400 font-semibold">{score}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}

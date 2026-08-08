@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
             id: `achievement-${a.id}`,
             type: 'achievement',
             title: a.title,
-            description: `${a.issuer}${a.description ? ' — ' + a.description : ''}`,
+            description: `${a.issuer}${a.description ? ' ' + a.description : ''}`,
             route: 'playground',
             meta: `${a.category} • ${a.date}`,
             score: a.title.toLowerCase().includes(q) ? 3 : 1,

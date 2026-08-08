@@ -41,6 +41,7 @@ export type Dict = {
     labActivity: string
     labActivityDesc: string
     labActive: string
+    nowItems: Record<string, { label: string; value: string; detail: string }>
     statsProjects: string
     statsExperiments: string
     statsDevlogs: string
@@ -73,6 +74,7 @@ export type Dict = {
     badge: string
     detailBack: string
     featured: string
+    projectCopy: Record<string, { desc: string; longDesc: string }>
   }
   dashboard: {
     pageTitle: string

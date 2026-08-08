@@ -162,7 +162,7 @@ export function Snake() {
   const W = SZ * PX
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SWIPE / ARROW KEYS ] — eat, grow, survive</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ SWIPE / ARROW KEYS ] eat, grow, survive</p>
       <div className="flex items-center gap-4 text-xs">
         <span className="font-mono text-muted-foreground">SCORE: <span className="text-emerald-400 font-semibold">{score}</span></span>
         <span className="font-mono text-muted-foreground">BEST: <span className="text-foreground/60">{hs}</span></span>

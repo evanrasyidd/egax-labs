@@ -1,33 +1,33 @@
-# Evan Lab — Creative Coding Playground
+# Evan Lab Creative Coding Playground
 
 Personal lab and portfolio website built with Next.js. A space for interactive coding experiments, physics simulations, 3D visualization, and creative UI exploration.
 
 ## Tech Stack
 
-- **Framework** — Next.js 16 (App Router, webpack)
-- **Language** — TypeScript
-- **Styling** — Tailwind CSS v4 + tw-animate-css
-- **UI** — shadcn/ui (Radix primitives)
-- **Animation** — Framer Motion
-- **State** — Zustand
-- **Forms** — React Hook Form + Zod
-- **Database** — PostgreSQL (Neon serverless) via Prisma
-- **Icons** — Lucide React
+- **Framework** Next.js 16 (App Router, webpack)
+- **Language** TypeScript
+- **Styling** Tailwind CSS v4 + tw-animate-css
+- **UI** shadcn/ui (Radix primitives)
+- **Animation** Framer Motion
+- **State** Zustand
+- **Forms** React Hook Form + Zod
+- **Database** PostgreSQL (Neon serverless) via Prisma
+- **Icons** Lucide React
 
 ## Features
 
-- **SPA-style navigation** — custom router with animated transitions
-- **Guestbook** — leave messages with reply threads and likes
-- **Blog** — devlogs with nested comment system
-- **Dashboard** — live stats from GitHub, Wakatime, and site traffic
-- **Playground** — pixel games (Tetris, Asteroids, Flappy Bird, etc.)
-- **Experiments** — interactive physics and 3D demos
-- **Manage page** — admin panel for guestbook moderation and blog management
-- **i18n** — Indonesian / English toggle
-- **Dark/light theme** — system-aware with manual toggle
-- **Command palette** — `Cmd+K` quick navigation
-- **Global search** — search across projects, blog posts, and skills
-- **OG images** — auto-generated social preview images
+- **SPA-style navigation** custom router with animated transitions
+- **Guestbook** leave messages with reply threads and likes
+- **Blog** devlogs with nested comment system
+- **Dashboard** live stats from GitHub, Wakatime, and site traffic
+- **Playground** pixel games (Tetris, Asteroids, Flappy Bird, etc.)
+- **Experiments** interactive physics and 3D demos
+- **Manage page** admin panel for guestbook moderation and blog management
+- **i18n** Indonesian / English toggle
+- **Dark/light theme** system-aware with manual toggle
+- **Command palette** `Cmd+K` quick navigation
+- **Global search** search across projects, blog posts, and skills
+- **OG images** auto-generated social preview images
 
 ## Getting Started
 

@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import {
   Sparkles,
   Layers,
@@ -103,7 +103,7 @@ function FloatingTechBg() {
       skills.map((s, i) => ({
         ...s,
         left: 3 + (i * 11 + (s.icon.charCodeAt(0) % 7)) % 94,
-        delay: (i % 8) * 2,
+        delay: 1.5 + (i % 8) * 2,
         duration: 18 + (s.icon.length % 6) * 3,
         size: i % 3 === 0 ? 28 : i % 3 === 1 ? 22 : 18,
         driftX: (s.icon.charCodeAt(1) || 0) % 50 - 25,
@@ -112,34 +112,59 @@ function FloatingTechBg() {
     []
   )
 
+  const reduce = useReducedMotion()
+
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <div className="absolute inset-0 bg-[image:radial-gradient(rgba(99,102,241,0.08)_1px,transparent_1px)] bg-[length:24px_24px]" />
       <div className="absolute inset-0 bg-[image:radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
       {icons.map((s) => (
-        <motion.div
-          key={s.icon}
-          className="absolute"
-          style={{ left: `${s.left}%`, bottom: '-15%' }}
-          animate={{
-            y: [0, -1400],
-            x: [0, s.driftX, 0],
-            opacity: [0, 0.35, 0.25, 0],
-            rotate: [0, s.rotateEnd, 0],
-          }}
-          transition={{
-            duration: s.duration,
-            repeat: Infinity,
-            delay: s.delay,
-            ease: 'linear',
-          }}
-        >
-          <div className="rounded-xl bg-background/50 p-2 backdrop-blur-md shadow-sm">
-            <TechIcon icon={s.icon} color={s.color ?? '#888'} size={s.size} className="text-muted-foreground" />
-          </div>
-        </motion.div>
+        <FloatingIcon key={s.icon} s={s} reduce={reduce} />
       ))}
     </div>
+  )
+}
+
+function FloatingIcon({ s, reduce }: { s: (typeof skills)[number] & { left: number; delay: number; duration: number; size: number; driftX: number; rotateEnd: number }; reduce: boolean | null }) {
+  const [hidden, setHidden] = React.useState(false)
+
+  React.useEffect(() => {
+    const onVis = () => setHidden(document.hidden)
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
+  }, [])
+
+  if (reduce || hidden) {
+    return (
+      <div className="absolute" style={{ left: `${s.left}%`, bottom: '-15%', opacity: 0.12 }}>
+        <div className="rounded-xl bg-background/50 p-2 shadow-sm">
+          <TechIcon icon={s.icon} color={s.color ?? '#888'} size={s.size} className="text-muted-foreground" />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <motion.div
+      className="absolute"
+      style={{ left: `${s.left}%`, bottom: '-15%', willChange: 'transform, opacity' }}
+      animate={{
+        y: [0, -1400],
+        x: [0, s.driftX, 0],
+        opacity: [0, 0.35, 0.25, 0],
+        rotate: [0, s.rotateEnd, 0],
+      }}
+      transition={{
+        duration: s.duration,
+        repeat: Infinity,
+        delay: s.delay,
+        ease: 'linear',
+      }}
+    >
+      <div className="rounded-xl bg-background/50 p-2 shadow-sm">
+        <TechIcon icon={s.icon} color={s.color ?? '#888'} size={s.size} className="text-muted-foreground" />
+      </div>
+    </motion.div>
   )
 }
 
@@ -188,6 +213,15 @@ export function HomePage({ projects = [] }: { projects?: { id: string }[] }) {
                 className="mt-3 text-base text-muted-foreground leading-relaxed"
               >
                 {t.home.heroDesc1.split('<br />').map((part, i) => i === 0 ? part : <React.Fragment key={i}><br />{part}</React.Fragment>)}
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0, y: 16, filter: 'blur(2px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ type: 'spring', stiffness: 45, damping: 15, delay: 0.35 }}
+                className="mt-5 text-sm leading-relaxed text-muted-foreground"
+              >
+                {t.home.heroDesc2}
               </motion.p>
 
               <motion.p
@@ -288,7 +322,7 @@ export function HomePage({ projects = [] }: { projects?: { id: string }[] }) {
           </div>
         </section>
 
-        {/* Toolbox — Interactive SkillScatter */}
+        {/* Toolbox Interactive SkillScatter */}
         <AnimatedSection>
           <div className="mb-5">
             <h2 className="text-lg font-semibold tracking-tight">{t.home.toolbox}</h2>
@@ -336,6 +370,7 @@ export function HomePage({ projects = [] }: { projects?: { id: string }[] }) {
           <div className="divide-y divide-border/40 rounded-xl border border-border/60 bg-card">
             {nowItems.map((item, idx) => {
               const Icon = nowIconMap[item.icon] ?? Sparkles
+              const tr = t.home.nowItems?.[item.status]
               return (
                 <motion.div
                   key={item.label}
@@ -355,10 +390,10 @@ export function HomePage({ projects = [] }: { projects?: { id: string }[] }) {
                     <Icon className="h-3.5 w-3.5" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs text-muted-foreground">{item.label}</p>
-                    <p className="text-sm font-medium leading-tight">{item.value}</p>
+                    <p className="text-xs text-muted-foreground">{tr?.label ?? item.label}</p>
+                    <p className="text-sm font-medium leading-tight">{tr?.value ?? item.value}</p>
                     {item.detail && (
-                      <p className="mt-0.5 text-xs text-muted-foreground/70">{item.detail}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground/70">{tr?.detail ?? item.detail}</p>
                     )}
                   </div>
                   <Badge variant="outline" className={`shrink-0 border px-2 py-0.5 text-[9px] uppercase tracking-wide ${nowStatusColor[item.status] ?? ''}`}>

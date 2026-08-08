@@ -117,9 +117,9 @@ export function Pong() {
 
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ MOUSE / DRAG: MOVE PADDLE ] — first to 5 wins</p>
+      <p className="font-mono text-[10px] text-muted-foreground tracking-wider">[ MOUSE / DRAG: MOVE PADDLE ] first to 5 wins</p>
       <div className="flex items-center gap-4 text-xs">
-        <span className="font-mono text-muted-foreground"><span className="text-emerald-400">{score.p}</span> — <span className="text-red-400">{score.ai}</span></span>
+        <span className="font-mono text-muted-foreground"><span className="text-emerald-400">{score.p}</span> <span className="text-red-400">{score.ai}</span></span>
         {st !== 'playing' && <button onClick={restart} className="inline-flex h-6 items-center gap-1 rounded bg-primary px-2 text-[10px] font-medium text-primary-foreground"><RotateCcw className="h-3 w-3" /> {st === 'over' ? 'RETRY' : 'START'}</button>}
       </div>
       <div className="inline-block rounded-xl border-2 border-border/60 bg-card/30 overflow-hidden">

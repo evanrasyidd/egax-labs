@@ -84,7 +84,9 @@ export function SkillScatter({ activeCategory }: { activeCategory: string | null
     Matter.Runner.run(runner, engine)
 
     let raf: number
+    let running = true
     const sync = () => {
+      if (!running) return
       bodies.forEach((body, i) => {
         const el = tileRefs.current[i]
         if (!el) return
@@ -94,8 +96,18 @@ export function SkillScatter({ activeCategory }: { activeCategory: string | null
     }
     sync()
 
+    const visObs = new IntersectionObserver(
+      ([entry]) => {
+        running = entry.isIntersecting
+        if (running) sync()
+      },
+      { threshold: 0 }
+    )
+    visObs.observe(container)
+
     return () => {
       cancelAnimationFrame(raf)
+      visObs.disconnect()
       window.removeEventListener('mouseup', forceRelease)
       window.removeEventListener('touchend', forceRelease)
       Matter.Runner.stop(runner)

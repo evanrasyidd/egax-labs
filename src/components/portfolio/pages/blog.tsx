@@ -100,7 +100,7 @@ export function BlogPage({ initialPosts = [] }: { initialPosts?: BlogPost[] }) {
           setViewCounts((prev) => ({ ...prev, [selected.slug]: data.views }))
         }
       } catch {
-        // ignore — tracking is non-critical
+        // ignore tracking is non-critical
       }
     }
     track()
@@ -495,7 +495,7 @@ function ShareButtons({ post, t }: { post: BlogPost; t: Dict }) {
   const [copied, setCopied] = React.useState(false)
 
   const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/blog` : ''
-  const shareText = `${post.title} — by Evan Rasyid Ega Pratama`
+  const shareText = `${post.title} by Evan Rasyid Ega Pratama`
 
   const copyLink = async () => {
     try {

@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Evan Lab — Creative Coding Playground",
+  title: "Evan Lab Creative Coding Playground",
   description:
     "Lab eksperimen kreatif Evan Rasyid Ega Pratama. Interactive coding, physics, 3D, dan UI experiments.",
   keywords: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Evan Rasyid Ega Pratama" }],
   metadataBase: new URL('https://evan-lab.vercel.app'),
   openGraph: {
-    title: "Evan Lab — Creative Coding Playground",
+    title: "Evan Lab Creative Coding Playground",
     description:
       "Lab eksperimen kreatif Evan Rasyid Ega Pratama. Interactive coding, physics, 3D, dan UI experiments.",
     type: "website",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Evan Lab — Creative Coding Playground",
+    title: "Evan Lab Creative Coding Playground",
     description: "Interactive coding experiments by Evan Rasyid Ega Pratama",
     images: ['/api/og'],
   },

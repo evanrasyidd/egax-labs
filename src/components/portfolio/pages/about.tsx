@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { type ComponentType } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, FolderOpen, FileJson, FileType, FileText, Globe, Palette, Terminal, Cpu, Book, Gamepad2, LayoutDashboard, Mail, Link } from 'lucide-react'
+import { ArrowRight, FolderOpen, FileJson, FileType, FileText, Globe, Palette, Terminal, Cpu, Book, Gamepad2, Gauge, Mail, Link } from 'lucide-react'
 import { featuredExperiments, blogPosts, navLinks } from '@/lib/portfolio-data'
 import { useTranslation } from '@/lib/i18n/context'
 import { CountUp, TextReveal } from '@/components/animations'
@@ -324,7 +324,7 @@ export function AboutPage({ projects = [] }: { projects?: { id: string }[] }) {
       >
         <h2 className="mb-2 text-lg font-bold tracking-tight">Project Structure</h2>
         <p className="mb-6 text-sm text-muted-foreground">
-          Hierarki folder project ini — component library, pages, API routes, dan utility modules.
+          Hierarki folder project ini component library, pages, API routes, dan utility modules.
         </p>
 
         <div className="rounded-xl border border-border/60 bg-card/50 p-1">
@@ -338,7 +338,7 @@ export function AboutPage({ projects = [] }: { projects?: { id: string }[] }) {
         </div>
       </motion.div>
 
-      {/* Site Stats — minimal row */}
+      {/* Site Stats minimal row */}
       <motion.div
         initial={{ opacity: 0, y: 16, filter: 'blur(3px)' }}
         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}

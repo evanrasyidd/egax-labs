@@ -4,7 +4,7 @@ import * as React from 'react'
 
 /**
  * Tracks page views in localStorage.
- * Call usePageViews() at the app root — it listens to hash changes and increments
+ * Call usePageViews() at the app root it listens to hash changes and increments
  * view counts per route.
  */
 

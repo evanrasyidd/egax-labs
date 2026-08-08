@@ -3,19 +3,20 @@
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { ExternalLink, Github, Star, ArrowUpRight, ArrowLeft, X, Tag, Coffee, ShoppingBag, Receipt, Building2, type LucideIcon } from 'lucide-react'
+import { ExternalLink, Github, ArrowUpRight, ArrowLeft, X, Tag, Coffee, ShoppingBag, Receipt, Building2, User, type LucideIcon } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PageHeader } from '../page-header'
 import { useTranslation } from '@/lib/i18n/context'
-import { TextReveal, CountUp } from '@/components/animations'
 
 const projectIcon: Record<string, LucideIcon> = {
   'rasga-coffee-studio': Coffee,
   'egax-studios': ShoppingBag,
   'invoicegua': Receipt,
   'egalog': Building2,
+  'egaxdev': User,
+  'evanrasyidd': User,
 }
 
 const typeColor: Record<string, string> = {
@@ -74,6 +75,8 @@ interface Experiment {
 export function ProjectsPage({ projects }: { projects: Experiment[] }) {
   const { t } = useTranslation()
   const [selected, setSelected] = React.useState<Experiment | null>(null)
+
+  const copyFor = (slug: string) => t.experiments.projectCopy?.[slug]
 
   React.useEffect(() => {
     if (!selected) return
@@ -142,12 +145,6 @@ export function ProjectsPage({ projects }: { projects: Experiment[] }) {
                 <Badge variant="outline" className={`border ${typeColor[selected.type] ?? 'border-primary/30 text-primary'} bg-background/70 backdrop-blur`}>
                   {typeLabel[selected.type] ?? selected.type}
                 </Badge>
-                {selected.featured && (
-                  <Badge variant="outline" className="gap-1 border-amber-500/40 bg-amber-500/10 text-amber-600 backdrop-blur dark:text-amber-400">
-                    <Star className="h-3 w-3 fill-current" />
-                    {t.experiments.featured}
-                  </Badge>
-                )}
               </div>
             </div>
 
@@ -158,11 +155,11 @@ export function ProjectsPage({ projects }: { projects: Experiment[] }) {
                 transition={{ duration: 0.3, delay: 0.15 }}
               >
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{selected.title}</h1>
-                <p className="mt-2 text-sm text-muted-foreground sm:text-base">{selected.description}</p>
+                <p className="mt-2 text-sm text-muted-foreground sm:text-base">{copyFor(selected.slug)?.desc ?? selected.description}</p>
 
                 {selected.longDesc && (
                   <div className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground">
-                    {selected.longDesc.split('\n\n').map((p, i) => (
+                    {(copyFor(selected.slug)?.longDesc ?? selected.longDesc).split('\n\n').map((p, i) => (
                       <p key={i} className="text-pretty">{p}</p>
                     ))}
                   </div>
@@ -260,11 +257,10 @@ export function ProjectsPage({ projects }: { projects: Experiment[] }) {
                     <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${typeColor[exp.type] ?? 'bg-muted/60 text-muted-foreground/60'} transition-transform group-hover:scale-110`}>
                       <Icon className="h-5 w-5" />
                     </span>
-                    {exp.featured && <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold">{exp.title}</h3>
-                    <p className="mt-1 text-xs text-muted-foreground/70 leading-relaxed">{exp.description}</p>
+                    <p className="mt-1 text-xs text-muted-foreground/70 leading-relaxed">{copyFor(exp.slug)?.desc ?? exp.description}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className={`px-2 py-0.5 text-[9px] uppercase tracking-wide ${typeColor[exp.type] ?? 'border-primary/30 text-primary'}`}>

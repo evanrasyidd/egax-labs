@@ -34,7 +34,7 @@ export function LinksPage() {
       >
         <div className="mx-auto mb-4">
           <span className="relative mx-auto grid h-24 w-24 place-items-center overflow-hidden rounded-full border-4 border-border">
-            <Image src="/images/avatar.png" alt={persona.name} fill className="object-cover" sizes="96px" />
+            <Image src="/images/avatar.webp" alt={persona.name} fill className="object-cover" sizes="96px" />
           </span>
         </div>
         <h1 className="text-2xl font-bold tracking-tight">{persona.name}</h1>

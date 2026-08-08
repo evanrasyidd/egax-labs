@@ -43,9 +43,9 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>${persona.name} — Blog</title>
+    <title>${persona.name} Blog</title>
     <link>${siteUrl}/#/blog</link>
-    <description>Blog posts by ${persona.name} — ${persona.role}</description>
+    <description>Blog posts by ${persona.name} ${persona.role}</description>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />
