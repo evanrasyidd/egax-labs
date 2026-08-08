@@ -3,17 +3,17 @@ import type { TechName } from '@/components/portfolio/tech-icon'
 export const persona = {
   name: 'Evan Rasyid Ega Pratama',
   firstName: 'Evan',
-  role: 'Fullstack Engineer',
-  roleFull: 'Fullstack Engineer & Creative Developer',
+  role: 'Frontend Engineer & Creative Developer',
+  roleFull: 'Frontend Engineer & Creative Developer',
   location: 'Indonesia',
   locationType: 'Remote',
   flag: '🇮🇩',
   email: 'helloegaxdev@gmail.com',
   githubUser: 'evanrasyidd',
-  homeIntro: `Frontend Engineer yang suka bereksperimen dengan interactive coding, physics simulation, 3D visualization, dan UI yang gak biasa. Lab ini tempat documenting semua experiment & creative coding.`,
+  homeIntro: `Frontend Engineer & Creative Developer yang suka bereksperimen dengan interactive coding, physics simulation, 3D visualization, dan UI yang gak biasa. Lab ini tempat documenting semua experiment & creative coding.`,
   aboutParagraphs: [
-    `Halo, saya Evan Rasyid Ega Pratama Frontend Engineer dari Indonesia. Ini lab eksperimen pribadi saya untuk interactive coding, creative UI, physics simulation, 3D visualization, dan hal-hal random lain yang menarik buat dieksplor.`,
-    `Semua yang ada di sini dibangun pake Next.js, TypeScript, Three.js, Matter.js, Framer Motion, dan berbagai library keren lainnya. Setiap experiment adalah kesempatan buat belajar sesuatu yang baru.`,
+    `Halo, saya Evan Rasyid Ega Pratama Frontend Engineer & Creative Developer dari Indonesia. Ini lab eksperimen pribadi saya untuk interactive coding, creative UI, physics simulation, 3D visualization, dan hal-hal random lain yang menarik buat dieksplor.`,
+    `Semua yang ada di sini dibangun pake Next.js, TypeScript, Three.js, Matter.js, Framer Motion, dan berbagai library keren lainnya. Di luar web, saya juga bisa bangun mobile app pake Flutter, Dart, dan Kotlin. Setiap experiment adalah kesempatan buat belajar sesuatu yang baru.`,
     `Di luar coding, saya aktif di komunitas developer Indonesia, kadang nulis catatan teknis, dan eksperimen dengan berbagai tools buat ningkatin produktivitas. Saya open untuk diskusi, kolaborasi, dan opportunity baru.`,
     `Best regards,`,
   ],
@@ -329,7 +329,7 @@ The admin panel shows live orders, daily revenue, popular items, and inventory a
 SSE works great for this use case but has connection limits per browser. For a single coffee shop with ~30 tables, it's fine. For larger deployments, I'd switch to WebSocket or use a real-time service.
 
 The hardest part was not technical it was mapping the coffee shop's workflow into the system. Every shop has slightly different procedures (prepay vs postpay, self-service vs waiter service). The system needed to be configurable, not hardcoded.`,
-    category: 'Fullstack',
+    category: 'Web App',
     tags: ['Next.js', 'SSE', 'Prisma', 'Real-Time'],
     date: '2026-07-05',
     readTime: 5,
@@ -370,7 +370,7 @@ Real-time inventory across online + offline required careful locking. I used opt
 The monolith approach (Next.js handles both web store and POS) worked for MVP but should be split if the business grows. The POS needs higher reliability than the web store if the web store is down, customers can't browse, but if the POS is down during an event, cashiers can't sell at all.
 
 Future architecture: separate POS as a standalone PWA that operates independently from the main website.`,
-    category: 'Fullstack',
+    category: 'Web App',
     tags: ['Next.js', 'Three.js', 'R3F', 'E-Commerce', 'POS'],
     date: '2026-06-28',
     readTime: 6,
@@ -485,10 +485,10 @@ export interface FeaturedExperiment {
 }
 
 export const featuredExperiments: FeaturedExperiment[] = [
-  { title: 'RASGA Coffee Studio', desc: 'QR table-ordering system for coffee shops', type: 'fullstack', icon: 'coffee', gradient: 'from-cyan-500/30 via-teal-500/20 to-emerald-500/30' },
+  { title: 'RASGA Coffee Studio', desc: 'QR table-ordering system for coffee shops', type: 'web', icon: 'coffee', gradient: 'from-cyan-500/30 via-teal-500/20 to-emerald-500/30' },
   { title: 'EGAX Studios', desc: 'Fashion e-commerce with 3D hero + POS', type: 'e-commerce', icon: 'shopping-bag', gradient: 'from-violet-500/30 via-purple-500/20 to-fuchsia-500/30' },
   { title: 'InvoiceGUA', desc: 'Local-first invoicing PWA for freelancers', type: 'pwa', icon: 'receipt', gradient: 'from-amber-500/30 via-orange-500/20 to-rose-500/30' },
-  { title: 'EgaLog', desc: 'Full HRIS with selfie attendance & auto payroll', type: 'fullstack', icon: 'building-2', gradient: 'from-blue-500/30 via-indigo-500/20 to-purple-500/30' },
+  { title: 'EgaLog', desc: 'Full HRIS with selfie attendance & auto payroll', type: 'web', icon: 'building-2', gradient: 'from-blue-500/30 via-indigo-500/20 to-purple-500/30' },
 ]
 
 export interface FAQItem {

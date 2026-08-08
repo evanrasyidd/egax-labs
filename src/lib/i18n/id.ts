@@ -39,8 +39,8 @@ const id: Dict = {
   },
   home: {
     heroTitle: 'EvanRasyidd Labs',
-    heroTagline: 'Fullstack Engineer & Creative Developer',
-    heroDesc1: 'Membangun antarmuka, menjelajahi batas eksperimen frontend,<br />creative coding, dan segala sesuatu di antaranya.',
+    heroTagline: 'Frontend Engineer & Creative Developer',
+    heroDesc1: 'Membangun antarmuka, menjelajahi batas eksperimen frontend, aplikasi mobile, creative coding, dan segala sesuatu di antaranya.',
     heroDesc2: 'Lab pribadi tempat kode bertemu kreativitas. Dari simulasi fisika hingga 3D interaktif, setiap proyek adalah pelajaran.',
     viewExperiments: 'Lihat Eksperimen',
     aboutMe: 'Tentang Lab',

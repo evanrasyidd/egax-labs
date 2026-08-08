@@ -39,8 +39,8 @@ const en: Dict = {
   },
   home: {
     heroTitle: 'EvanRasyidd Labs',
-    heroTagline: 'Fullstack Engineer & Creative Developer',
-    heroDesc1: 'Building interfaces, exploring boundaries frontend experiments,<br />creative coding, and everything in between.',
+    heroTagline: 'Frontend Engineer & Creative Developer',
+    heroDesc1: 'Building interfaces, exploring boundaries frontend experiments, mobile apps, creative coding, and everything in between.',
     heroDesc2: 'A personal lab where code meets creativity. From physics simulations to interactive 3D, every project is a lesson.',
     viewExperiments: 'View Experiments',
     aboutMe: 'About the Lab',
